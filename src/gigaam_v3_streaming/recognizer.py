@@ -71,6 +71,10 @@ def _default_preview() -> StreamingConfig:
     return StreamingConfig(emit_ms=160, left_context_ms=3_200, right_context_ms=320)
 
 
+MODES = ("gpu", "cpu", "cpu-preview")
+"""The supported modes; README "Choose your mode" has their measured trade-offs."""
+
+
 @dataclass(frozen=True, slots=True)
 class RecognizerConfig:
     """Lane schedules and utterance segmentation.
@@ -94,6 +98,31 @@ class RecognizerConfig:
             raise ValueError("endpoint_ms must be positive or None")
         if self.max_utterance_ms <= 0:
             raise ValueError("max_utterance_ms must be positive")
+
+    @classmethod
+    def for_mode(cls, mode: str, **overrides: Any) -> RecognizerConfig:
+        """The lane schedule a mode was measured with; ``overrides`` replace single fields.
+
+        * ``gpu``: the defaults, stable 240/8000/800 ms (step / left / right
+          context) and preview 160/3200/320 ms.
+        * ``cpu``: stable 960/4000/800 ms, no preview. A four times longer step
+          and half the left context cut the encoder work about 6x; finals keep
+          the GPU accuracy, partials only show settled text.
+        * ``cpu-preview``: the ``cpu`` stable lane plus a light preview lane,
+          480/2400/320 ms, for earlier partials at about twice the compute.
+        """
+        if mode == "gpu":
+            schedule: dict[str, Any] = {}
+        elif mode in ("cpu", "cpu-preview"):
+            schedule = {
+                "stable": StreamingConfig(emit_ms=960, left_context_ms=4_000, right_context_ms=800),
+                "preview": None
+                if mode == "cpu"
+                else StreamingConfig(emit_ms=480, left_context_ms=2_400, right_context_ms=320),
+            }
+        else:
+            raise ValueError(f"unknown mode {mode!r}; choose one of {', '.join(MODES)}")
+        return cls(**(schedule | overrides))
 
 
 class StreamingRecognizer:
@@ -138,10 +167,19 @@ class StreamingRecognizer:
         name: str = "v3_e2e_rnnt",
         device: Optional[str] = None,
         config: Optional[RecognizerConfig] = None,
+        mode: str = "auto",
         **load_kwargs: Any,
     ) -> StreamingRecognizer:
-        """Load a stock GigaAM RNN-T checkpoint with ``gigaam.load_model``."""
-        return cls(load_model(name, device, **load_kwargs), config)
+        """Load a stock GigaAM RNN-T checkpoint in one of the :data:`MODES` and open one stream.
+
+        ``mode="auto"`` is ``gpu`` when CUDA is available, else ``cpu``. Keyword
+        arguments go to :func:`gigaam_v3_streaming.load_engine` (``threads``,
+        ``cache_dir``, ``download_root`` ...). To serve several streams, load
+        the engine once and call :meth:`Engine.recognizer` per stream.
+        """
+        from .engine import load_engine
+
+        return load_engine(mode, name, device=device, **load_kwargs).recognizer(config)
 
     @property
     def audio_seconds(self) -> float:
@@ -322,9 +360,18 @@ def _tokenizer(model: Any) -> Any:
 
 
 def load_model(name: str = "v3_e2e_rnnt", device: Optional[str] = None, **kwargs: Any) -> Any:
-    """Load a GigaAM checkpoint and check that it has an RNN-T head."""
+    """Load a GigaAM checkpoint and check that it has an RNN-T head.
+
+    Checkpoints with pinned hashes (:data:`gigaam_v3_streaming.download.PINS`)
+    are fetched with :func:`gigaam_v3_streaming.download.fetch` first, so a cut
+    download never leaves a broken file behind.
+    """
     import gigaam
 
+    from .download import PINS, fetch
+
+    if name in PINS:
+        fetch(name, kwargs.get("download_root"))
     if device is None:
         import torch
 

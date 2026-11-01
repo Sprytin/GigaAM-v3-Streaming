@@ -4,6 +4,27 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+## [0.2.0] - 2026-11-01
+
+### Added
+
+- Three modes with measured trade-offs (`load_engine`, `MODES`,
+  `RecognizerConfig.for_mode`): `gpu`, `cpu` and `cpu-preview`; `auto`
+  picks `gpu` when CUDA is available. `from_pretrained` takes `mode=`.
+- CPU modes (`[cpu]` extra): GigaAM's encoder in ONNX Runtime with INT8
+  weights, built once from the stock checkpoint in a child process and
+  cached; the PyTorch encoder is never built at run time. ONNX Runtime's
+  optimized graph is cached per runtime version, thread count and CPU,
+  with its weights memory-mapped.
+- Size- and SHA-256-pinned, atomic download of the `v3_e2e_rnnt` and
+  `v3_rnnt` checkpoints.
+- `benchmarks/run_cpu.py --mode`, `benchmarks/load_check.py` (start time and
+  peak memory in fresh processes) and `benchmarks/modes_table.py` (the
+  README's mode tables, checked by a test); 898-clip results for the CPU
+  modes and the comparison with gigastt on the same CPU.
+
 ## [0.1.0] - 2026-11-01
 
 First public version.
@@ -42,4 +63,6 @@ First public version.
 - README in Russian and English; `docs/` with usage and API, design and
   benchmarks; `AGENTS.md` for contributors and coding agents.
 
+[Unreleased]: https://github.com/Sprytin/GigaAM-v3-Streaming/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/Sprytin/GigaAM-v3-Streaming/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Sprytin/GigaAM-v3-Streaming/releases/tag/v0.1.0

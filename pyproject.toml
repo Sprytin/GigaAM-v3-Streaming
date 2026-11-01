@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gigaam-v3-streaming"
-version = "0.1.0"
+version = "0.2.0"
 description = "Streaming Russian speech recognition with stock GigaAM v3 RNN-T: partials, endpointed finals, word times"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -22,6 +22,8 @@ dependencies = ["numpy>=1.26"]
 [project.optional-dependencies]
 # GigaAM itself is installed from its repository with its [torch] extra (see README).
 model = ["torch>=2.5", "torchaudio>=2.5", "soundfile>=0.12"]
+# CPU modes: the encoder in ONNX Runtime (INT8); the first start builds it from the checkpoint.
+cpu = ["onnxruntime>=1.17", "onnx>=1.15"]
 server = ["aiohttp>=3.9"]
 bench = ["soundfile>=0.12", "pyarrow>=14"]
 test = ["pytest>=8", "ruff>=0.6"]

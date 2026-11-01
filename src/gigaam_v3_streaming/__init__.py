@@ -1,7 +1,9 @@
 """Streaming (live) recognition for GigaAM RNN-T models."""
 
 from .config import StreamingConfig
+from .engine import Engine, load_engine
 from .recognizer import (
+    MODES,
     Event,
     Final,
     Partial,
@@ -12,9 +14,11 @@ from .recognizer import (
 )
 from .session import StreamEvent, StreamingSession
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
+    "MODES",
+    "Engine",
     "Event",
     "Final",
     "Partial",
@@ -24,5 +28,6 @@ __all__ = [
     "StreamingRecognizer",
     "StreamingSession",
     "Word",
+    "load_engine",
     "load_model",
 ]
