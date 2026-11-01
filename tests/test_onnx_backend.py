@@ -86,6 +86,7 @@ def encoder_onnx(tmp_path_factory):
             output_names=["encoded", "encoded_lengths"],
             dynamic_axes={"features": {2: "time"}, "encoded": {2: "frames"}},
             opset_version=17,
+            dynamo=False,  # the TorchScript exporter, as GigaAM's to_onnx uses
         )
     return path
 
