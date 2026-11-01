@@ -53,7 +53,8 @@ idle card (see compute below).
   preview lane 23 s (3.68 s every 0.16 s).
 * CPU (`v3_e2e_rnnt_cpu.json`, 3 clips, 3 threads, the model in fp32):
   0.09 s per audio second offline, 3.6 streaming and 1.9 without preview,
-  so streaming on CPU falls behind real time.
+  so the stock model streams on CPU slower than real time; the
+  [CPU modes](#cpu-modes) do it in real time.
 
 Method: WER and CER normalize hypothesis and reference the same way
 (lowercase, `ё`->`е`, punctuation removed; `metrics.normalize_text`). Numbers
@@ -117,6 +118,73 @@ python benchmarks/run_gigastt.py --data data --pace realtime --server-pid $! \
     --out benchmarks/results/gigastt_e2e_rnnt_realtime.json
 ```
 
+## CPU modes
+
+The 898 clips through the library's CPU modes (`benchmarks/run_cpu.py
+--mode`), 3 ONNX Runtime threads on a Ryzen 5 7500F shared with other
+workloads. Latency is measured against the GPU run's offline word times
+(`v3_e2e_rnnt_anchors.jsonl`), so it is on the same clock as above.
+
+| Run | WER offline / streaming | CER streaming | First text p50 / p95 | Final p50 / p95 | CPU s per audio s | Peak memory |
+|---|---:|---:|---:|---:|---:|---:|
+| `cpu` (`v3_e2e_rnnt_mode_cpu.json`) | 7.01 / 7.52 | 4.05 | 1.53 / 1.82 s | 1.98 / 2.48 s | 0.50 | 928 MB |
+| `cpu-preview` (`v3_e2e_rnnt_mode_cpu_preview.json`) | 7.01 / 7.50 | 4.05 | 0.65 / 0.85 s | 2.30 / 2.71 s | 0.98 | 952 MB |
+| `cpu`, per-channel INT8 (`v3_e2e_rnnt_mode_cpu_int8pc.json`) | 7.06 / 7.51 | 3.98 | 1.53 / 1.82 s | 1.99 / 2.47 s | 0.50 | 1596 MB¹ |
+| before: stock model + INT8 encoder (`v3_e2e_rnnt_cpu_int8.json`) | 7.01 / 7.52 | 4.05 | 1.52 / 1.81 s | 1.97 / 2.45 s | 0.48 | 2309 MB |
+| before: the same with preview (`v3_e2e_rnnt_cpu_int8_preview.json`) | 7.01 / 7.50 | 4.05 | 0.64 / 0.84 s | 2.25 / 2.68 s | 1.11 | 2310 MB |
+| before: fp32 ONNX encoder (`v3_e2e_rnnt_cpu_onnx_fp32.json`) | 7.00 / 7.45 | 4.04 | 1.59 / 1.90 s | 2.13 / 2.82 s | 1.12 | 3366 MB |
+
+¹ This run also built its encoder and graph cache, which sets its peak.
+
+* The library modes decode the same text as the stock model with an INT8
+  encoder (same WER and CER) at 40% of its memory; the preview mode also
+  costs 12% less CPU, the plain mode is within the shared CPU's noise.
+* INT8 costs 0.07 WER points against fp32 and halves the CPU.
+* Per-channel against per-tensor INT8, paired on the same 898 clips:
+  streaming word errors 649 against 650 of 8640 (difference -0.01 points,
+  95% bootstrap interval -0.21..+0.17), offline 610 against 606, CPU
+  equal; better on 16 clips, worse on 15. No difference, so per-tensor
+  stays the default: it builds faster (33 s against 43 s).
+* Streams were not run in parallel; a machine with N cores has room for at
+  most about N ÷ (CPU s per audio s) real-time streams.
+* Peak memory is the whole benchmark process; 320 MB of it are the
+  encoder's weights, memory-mapped from the cache and shared between
+  processes.
+
+Start-up (`benchmarks/load_check.py`, `v3_e2e_rnnt_cpu_load.json`): fresh
+processes, 3 threads, files in the page cache, median of 5, time to the
+first decoded 10 s window and peak resident memory:
+
+| Start | Ready | Peak memory |
+|---|---:|---:|
+| Stock model on CPU + INT8 encoder, graph optimized on every start (before) | 4.6 s | 2329 MB |
+| Lean model, graph optimized on every start | 2.1 s | 1024 MB |
+| Lean model + cached graph, mapped weights (`load_engine("cpu")`) | 2.1 s | 799 MB |
+
+The cached graph halves the session load (0.44 s against 0.89 s) but the
+first window pays for mapping the weights in (0.70 s against 0.34 s), so
+the time to the first result is the same; what it saves is memory, and the
+mapped weights are shared between processes. Building the encoder once:
+33 s (per channel 43 s) and a 4.9 GB peak in the export child.
+
+Reproduce (`pip install -e ".[bench,cpu]"`, no GPU; the clips from
+`prepare_data.py` as above):
+
+```bash
+python benchmarks/run_cpu.py --data data --mode cpu --threads 3 \
+    --anchors benchmarks/results/v3_e2e_rnnt_anchors.jsonl \
+    --out benchmarks/results/v3_e2e_rnnt_mode_cpu.json
+python benchmarks/run_cpu.py --data data --mode cpu-preview --threads 3 \
+    --anchors benchmarks/results/v3_e2e_rnnt_anchors.jsonl \
+    --out benchmarks/results/v3_e2e_rnnt_mode_cpu_preview.json
+python benchmarks/run_cpu.py --data data --mode cpu --quantization int8-per-channel \
+    --threads 3 --anchors benchmarks/results/v3_e2e_rnnt_anchors.jsonl \
+    --out benchmarks/results/v3_e2e_rnnt_mode_cpu_int8pc.json
+python benchmarks/load_check.py --cache-dir /tmp/gigaam-cache --repeat 5 \
+    --out benchmarks/results/v3_e2e_rnnt_cpu_load.json
+python benchmarks/modes_table.py --write README.md   # the README's mode tables
+```
+
 ## Comparison with gigastt
 
 Upstream GigaAM has no streaming mode: `transcribe` takes clips up to 25 s,
@@ -129,8 +197,8 @@ well. How the two differ:
 | | gigastt 2.22.0 | this library |
 |---|---|---|
 | Form | Rust CLI and server (WebSocket, HTTP, OpenAI-compatible), SDKs, binaries | Python library on stock `gigaam` + PyTorch |
-| Inference | ONNX Runtime, INT8 encoder, CPU by default (CUDA, CoreML builds) | PyTorch, encoder fp16 on CUDA |
-| Windows | up to 2.5 s, 1.5 s left context, 0.8 s stride, stable-prefix commits | 8 s left / 0.8 s right, 240 ms stride, plus a 160 ms preview lane |
+| Inference | ONNX Runtime, INT8 encoder, CPU by default (CUDA, CoreML builds) | PyTorch, encoder fp16 on CUDA; or ONNX Runtime, INT8 encoder on CPU |
+| Windows | up to 2.5 s, 1.5 s left context, 0.8 s stride, stable-prefix commits | 8 s left / 0.8 s right, 240 ms stride, plus a 160 ms preview lane (CPU: 960 ms stride, 4 s left, optional 480 ms preview) |
 | Decoder state | fresh per window | carried across windows on an absolute sample clock |
 | Endpointing | a run of blank decoder steps (VAD optional) | 600 ms of decoded silence, closes only before a new word |
 | Extras | punctuation for the plain head, number normalization, diarization, telephony codecs, multilingual CTC | word times, finals invariant to chunking |
@@ -172,8 +240,11 @@ encoder threads, a Ryzen 5 7500F shared with other workloads.
   are simulated from the measured compute of each `feed` call. gigastt's
   finals come sooner because its endpoint is a shorter pause; that is also
   why it splits more.
-* This library's numbers are from the GPU runs above.
+* This library's numbers are from the GPU runs above. On the same CPU as
+  gigastt, its [CPU modes](#cpu-modes) give 7.52 streaming WER at 0.50 CPU s
+  per audio s with first text at 1.53 s p50, or 7.50 at 0.98 with first
+  text at 0.65 s; finals come at 1.98 and 2.30 s, later than gigastt's.
 
-Pick gigastt for a ready-made server, many audio formats, or less compute
-at a larger accuracy cost; pick this library when streaming accuracy
-matters.
+Pick gigastt for a ready-made server, many audio formats, or the soonest
+finals at a larger accuracy cost; pick this library when streaming accuracy
+matters, on a GPU or a CPU.

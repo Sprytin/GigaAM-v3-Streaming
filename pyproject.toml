@@ -22,6 +22,8 @@ dependencies = ["numpy>=1.26"]
 [project.optional-dependencies]
 # GigaAM itself is installed from its repository with its [torch] extra (see README).
 model = ["torch>=2.5", "torchaudio>=2.5", "soundfile>=0.12"]
+# CPU modes: the encoder in ONNX Runtime (INT8); the first start builds it from the checkpoint.
+cpu = ["onnxruntime>=1.17", "onnx>=1.15"]
 server = ["aiohttp>=3.9"]
 bench = ["soundfile>=0.12", "pyarrow>=14"]
 test = ["pytest>=8", "ruff>=0.6"]

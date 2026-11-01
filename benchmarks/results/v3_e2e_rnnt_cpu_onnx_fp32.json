@@ -1,0 +1,210 @@
+{
+ "model": "v3_e2e_rnnt",
+ "encoder": "v3_e2e_rnnt_encoder.onnx",
+ "settings": {
+  "threads": 3,
+  "chunk_ms": 80,
+  "tail_ms": 2000,
+  "endpoint_ms": 600,
+  "stable": "960/4000/800",
+  "preview": "none"
+ },
+ "environment": {
+  "cpu": "AMD Ryzen 5 7500F 6-Core Processor",
+  "torch": "2.5.1+cu124",
+  "onnxruntime": "1.17.3",
+  "python": "3.12.3"
+ },
+ "compute": "wall = perf_counter, cpu = process_time (all threads), per audio second",
+ "note": "CPU sweep, 3 threads, CPU shared with other workloads",
+ "cpu_rtf": {
+  "offline_wall": 0.0694,
+  "offline_cpu": 0.1823,
+  "streaming_wall": 0.3852,
+  "streaming_cpu": 1.1195
+ },
+ "cpu_rtf_by_set": {
+  "fleurs_ru": {
+   "offline_wall": 0.0699,
+   "offline_cpu": 0.1818,
+   "streaming_wall": 0.3635,
+   "streaming_cpu": 1.056
+  },
+  "golos_crowd": {
+   "offline_wall": 0.0675,
+   "offline_cpu": 0.1795,
+   "streaming_wall": 0.4028,
+   "streaming_cpu": 1.1733
+  },
+  "golos_farfield": {
+   "offline_wall": 0.0706,
+   "offline_cpu": 0.1888,
+   "streaming_wall": 0.4518,
+   "streaming_cpu": 1.3118
+  }
+ },
+ "peak_rss_mb": 3366.0,
+ "pid": 468514,
+ "sets": {
+  "fleurs_ru": {
+   "clips": 299,
+   "skipped_longer_than_max_seconds": 1,
+   "audio_hours": 0.967,
+   "wer": {
+    "offline": 5.0,
+    "streaming": 5.51
+   },
+   "cer": {
+    "offline": 1.66,
+    "streaming": 1.95
+   },
+   "wer_raw": {
+    "offline": 11.24,
+    "streaming": 14.78
+   },
+   "rtf": {
+    "offline": 0.0699,
+    "streaming": 0.3635,
+    "streaming_per_fed_second": 0.3102
+   },
+   "streaming_equals_offline_clips": 207,
+   "multi_final_clips_pct": 14.4,
+   "first_partial_s": {
+    "p50": 1.324,
+    "p95": 1.89
+   },
+   "final_lag_s": {
+    "p50": 1.913,
+    "p95": 2.706
+   },
+   "partial_updates": 3175,
+   "partial_revision_pct": 0.0,
+   "word_start_offset_s": {
+    "median": null,
+    "p05": null,
+    "p95": null,
+    "words": 0
+   }
+  },
+  "golos_crowd": {
+   "clips": 299,
+   "skipped_longer_than_max_seconds": 1,
+   "audio_hours": 0.351,
+   "wer": {
+    "offline": 14.64,
+    "streaming": 15.03
+   },
+   "cer": {
+    "offline": 12.84,
+    "streaming": 12.78
+   },
+   "wer_raw": {
+    "offline": 61.21,
+    "streaming": 58.32
+   },
+   "rtf": {
+    "offline": 0.0675,
+    "streaming": 0.4028,
+    "streaming_per_fed_second": 0.2736
+   },
+   "streaming_equals_offline_clips": 276,
+   "multi_final_clips_pct": 19.7,
+   "first_partial_s": {
+    "p50": 1.463,
+    "p95": 1.899
+   },
+   "final_lag_s": {
+    "p50": 2.122,
+    "p95": 2.84
+   },
+   "partial_updates": 1046,
+   "partial_revision_pct": 0.0,
+   "word_start_offset_s": {
+    "median": null,
+    "p05": null,
+    "p95": null,
+    "words": 0
+   }
+  },
+  "golos_farfield": {
+   "clips": 300,
+   "skipped_longer_than_max_seconds": 0,
+   "audio_hours": 0.221,
+   "wer": {
+    "offline": 6.8,
+    "streaming": 7.04
+   },
+   "cer": {
+    "offline": 3.29,
+    "streaming": 3.41
+   },
+   "wer_raw": {
+    "offline": 60.2,
+    "streaming": 55.75
+   },
+   "rtf": {
+    "offline": 0.0706,
+    "streaming": 0.4518,
+    "streaming_per_fed_second": 0.2577
+   },
+   "streaming_equals_offline_clips": 289,
+   "multi_final_clips_pct": 11.3,
+   "first_partial_s": {
+    "p50": 1.728,
+    "p95": 2.571
+   },
+   "final_lag_s": {
+    "p50": 2.362,
+    "p95": 2.816
+   },
+   "partial_updates": 859,
+   "partial_revision_pct": 0.0,
+   "word_start_offset_s": {
+    "median": null,
+    "p05": null,
+    "p95": null,
+    "words": 0
+   }
+  }
+ },
+ "all": {
+  "clips": 898,
+  "skipped_longer_than_max_seconds": 2,
+  "audio_hours": 1.54,
+  "wer": {
+   "offline": 7.0,
+   "streaming": 7.45
+  },
+  "cer": {
+   "offline": 3.83,
+   "streaming": 4.04
+  },
+  "wer_raw": {
+   "offline": 27.51,
+   "streaming": 28.71
+  },
+  "rtf": {
+   "offline": 0.0694,
+   "streaming": 0.3852,
+   "streaming_per_fed_second": 0.2909
+  },
+  "streaming_equals_offline_clips": 772,
+  "multi_final_clips_pct": 15.1,
+  "first_partial_s": {
+   "p50": 1.59,
+   "p95": 1.899
+  },
+  "final_lag_s": {
+   "p50": 2.127,
+   "p95": 2.816
+  },
+  "partial_updates": 5080,
+  "partial_revision_pct": 0.0,
+  "word_start_offset_s": {
+   "median": null,
+   "p05": null,
+   "p95": null,
+   "words": 0
+  }
+ }
+}

@@ -1,0 +1,201 @@
+{
+  "model": "v3_e2e_rnnt",
+  "encoder": "v3_e2e_rnnt-f60c62fe45902d96-encoder-int8.onnx",
+  "threads": 3,
+  "repeat": 5,
+  "prepare_s": 0.0,
+  "environment": {
+    "cpu_isa": "x86_64-4a319432",
+    "machine": "x86_64",
+    "onnxruntime": "1.17.3",
+    "torch": "2.5.1+cu124",
+    "python": "3.12.3"
+  },
+  "median": {
+    "prototype": {
+      "process_s": 5.136,
+      "ready_s": 4.621,
+      "import_s": 0.849,
+      "load_s": 3.364,
+      "first_window_s": 0.384,
+      "peak_rss_mb": 2329.0,
+      "rss_mb": 2329.0
+    },
+    "lean": {
+      "process_s": 2.424,
+      "ready_s": 2.126,
+      "import_s": 0.895,
+      "load_s": 0.887,
+      "first_window_s": 0.336,
+      "peak_rss_mb": 1024.2,
+      "rss_mb": 1024.2
+    },
+    "cached": {
+      "process_s": 2.468,
+      "ready_s": 2.141,
+      "import_s": 0.898,
+      "load_s": 0.44,
+      "first_window_s": 0.698,
+      "peak_rss_mb": 799.4,
+      "rss_mb": 796.9
+    }
+  },
+  "runs": {
+    "prototype": [
+      {
+        "variant": "prototype",
+        "import_s": 0.85,
+        "load_s": 3.457,
+        "first_window_s": 0.315,
+        "ready_s": 4.621,
+        "peak_rss_mb": 2329.3,
+        "rss_mb": 2329.3,
+        "process_s": 5.136
+      },
+      {
+        "variant": "prototype",
+        "import_s": 0.779,
+        "load_s": 3.288,
+        "first_window_s": 0.453,
+        "ready_s": 4.52,
+        "peak_rss_mb": 2326.1,
+        "rss_mb": 2326.1,
+        "process_s": 5.083
+      },
+      {
+        "variant": "prototype",
+        "import_s": 0.839,
+        "load_s": 3.074,
+        "first_window_s": 0.367,
+        "ready_s": 4.28,
+        "peak_rss_mb": 2329.0,
+        "rss_mb": 2329.0,
+        "process_s": 4.778
+      },
+      {
+        "variant": "prototype",
+        "import_s": 1.074,
+        "load_s": 3.364,
+        "first_window_s": 0.493,
+        "ready_s": 4.93,
+        "peak_rss_mb": 2332.2,
+        "rss_mb": 2332.2,
+        "process_s": 5.478
+      },
+      {
+        "variant": "prototype",
+        "import_s": 0.849,
+        "load_s": 3.539,
+        "first_window_s": 0.384,
+        "ready_s": 4.771,
+        "peak_rss_mb": 2327.8,
+        "rss_mb": 2327.8,
+        "process_s": 5.244
+      }
+    ],
+    "lean": [
+      {
+        "variant": "lean",
+        "import_s": 0.805,
+        "load_s": 0.833,
+        "first_window_s": 0.326,
+        "ready_s": 1.964,
+        "peak_rss_mb": 1024.3,
+        "rss_mb": 1024.3,
+        "process_s": 2.287
+      },
+      {
+        "variant": "lean",
+        "import_s": 0.895,
+        "load_s": 0.902,
+        "first_window_s": 0.329,
+        "ready_s": 2.126,
+        "peak_rss_mb": 1024.2,
+        "rss_mb": 1024.2,
+        "process_s": 2.424
+      },
+      {
+        "variant": "lean",
+        "import_s": 0.909,
+        "load_s": 0.887,
+        "first_window_s": 0.382,
+        "ready_s": 2.178,
+        "peak_rss_mb": 1023.3,
+        "rss_mb": 1023.3,
+        "process_s": 2.593
+      },
+      {
+        "variant": "lean",
+        "import_s": 0.989,
+        "load_s": 1.028,
+        "first_window_s": 0.448,
+        "ready_s": 2.466,
+        "peak_rss_mb": 1022.2,
+        "rss_mb": 1022.2,
+        "process_s": 2.873
+      },
+      {
+        "variant": "lean",
+        "import_s": 0.839,
+        "load_s": 0.869,
+        "first_window_s": 0.336,
+        "ready_s": 2.044,
+        "peak_rss_mb": 1025.8,
+        "rss_mb": 1025.8,
+        "process_s": 2.358
+      }
+    ],
+    "cached": [
+      {
+        "variant": "cached",
+        "import_s": 0.831,
+        "load_s": 0.357,
+        "first_window_s": 0.596,
+        "ready_s": 1.784,
+        "peak_rss_mb": 799.6,
+        "rss_mb": 796.8,
+        "process_s": 2.07
+      },
+      {
+        "variant": "cached",
+        "import_s": 1.003,
+        "load_s": 0.44,
+        "first_window_s": 0.698,
+        "ready_s": 2.141,
+        "peak_rss_mb": 799.2,
+        "rss_mb": 796.6,
+        "process_s": 2.468
+      },
+      {
+        "variant": "cached",
+        "import_s": 0.898,
+        "load_s": 0.467,
+        "first_window_s": 0.974,
+        "ready_s": 2.339,
+        "peak_rss_mb": 802.5,
+        "rss_mb": 799.8,
+        "process_s": 2.754
+      },
+      {
+        "variant": "cached",
+        "import_s": 1.072,
+        "load_s": 0.504,
+        "first_window_s": 1.121,
+        "ready_s": 2.697,
+        "peak_rss_mb": 799.4,
+        "rss_mb": 796.9,
+        "process_s": 3.055
+      },
+      {
+        "variant": "cached",
+        "import_s": 0.787,
+        "load_s": 0.371,
+        "first_window_s": 0.629,
+        "ready_s": 1.786,
+        "peak_rss_mb": 799.3,
+        "rss_mb": 796.9,
+        "process_s": 2.095
+      }
+    ]
+  }
+}
