@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-01
+
 ### Added
 
 - Three modes with measured trade-offs (`load_engine`, `MODES`,
@@ -61,5 +63,6 @@ First public version.
 - README in Russian and English; `docs/` with usage and API, design and
   benchmarks; `AGENTS.md` for contributors and coding agents.
 
-[Unreleased]: https://github.com/Sprytin/GigaAM-v3-Streaming/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/Sprytin/GigaAM-v3-Streaming/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/Sprytin/GigaAM-v3-Streaming/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Sprytin/GigaAM-v3-Streaming/releases/tag/v0.1.0
