@@ -1,0 +1,213 @@
+{
+ "system": "gigastt",
+ "server": {
+  "id": "gigaam-v3-e2e-rnnt",
+  "version": "2.22.0",
+  "variant": "e2e_rnnt",
+  "encoder": "int8",
+  "execution_provider": "cpu",
+  "pool_size": 1
+ },
+ "settings": {
+  "pace": "fast",
+  "chunk_ms": 100,
+  "tail_ms": 0,
+  "clips": "v3_e2e_rnnt.rows.jsonl",
+  "anchors": null,
+  "serve_flags": "gigastt serve --offline --model-variant e2e_rnnt --model-dir <models> --pool-size 1 --encoder-intra-threads 3 --port 9876"
+ },
+ "compute": "stream_compute_s is the session's wall time with frames sent as fast as accepted; offline_compute_s is the wall time of POST /v1/transcribe",
+ "environment": {
+  "cpu": "AMD Ryzen 5 7500F 6-Core Processor",
+  "python": "3.12.3"
+ },
+ "server_peak_rss_mb": 417.5,
+ "resumed_after_clips": 858,
+ "note": "pace fast, stop right after the clip (gigastt's own client protocol), CPU shared with other workloads; resumed once after an interruption",
+ "sets": {
+  "fleurs_ru": {
+   "clips": 299,
+   "skipped_longer_than_max_seconds": 1,
+   "audio_hours": 0.967,
+   "wer": {
+    "offline": 5.2,
+    "streaming": 8.34
+   },
+   "cer": {
+    "offline": 1.7,
+    "streaming": 4.75
+   },
+   "wer_raw": {
+    "offline": 11.41,
+    "streaming": 17.85
+   },
+   "rtf": {
+    "offline": 0.0935,
+    "streaming": 0.4114,
+    "streaming_per_fed_second": 0.4114
+   },
+   "streaming_equals_offline_clips": 131,
+   "multi_final_clips_pct": 40.1,
+   "first_partial_s": {
+    "p50": null,
+    "p95": null
+   },
+   "final_lag_s": {
+    "p50": null,
+    "p95": null
+   },
+   "partial_updates": 3482,
+   "partial_revision_pct": 10.68,
+   "word_start_offset_s": {
+    "median": 0.0,
+    "p05": -0.04,
+    "p95": 0.0,
+    "words": 5571
+   },
+   "server_cpu_s_per_audio_s": {
+    "offline": 0.1492,
+    "streaming": 0.6222
+   },
+   "final_by_stop_clips": 163,
+   "error_messages": 0
+  },
+  "golos_crowd": {
+   "clips": 299,
+   "skipped_longer_than_max_seconds": 1,
+   "audio_hours": 0.351,
+   "wer": {
+    "offline": 14.32,
+    "streaming": 20.3
+   },
+   "cer": {
+    "offline": 12.3,
+    "streaming": 17.12
+   },
+   "wer_raw": {
+    "offline": 60.95,
+    "streaming": 68.91
+   },
+   "rtf": {
+    "offline": 0.0734,
+    "streaming": 0.2513,
+    "streaming_per_fed_second": 0.2513
+   },
+   "streaming_equals_offline_clips": 212,
+   "multi_final_clips_pct": 34.1,
+   "first_partial_s": {
+    "p50": null,
+    "p95": null
+   },
+   "final_lag_s": {
+    "p50": null,
+    "p95": null
+   },
+   "partial_updates": 927,
+   "partial_revision_pct": 5.07,
+   "word_start_offset_s": {
+    "median": 0.0,
+    "p05": -0.04,
+    "p95": 0.04,
+    "words": 1441
+   },
+   "server_cpu_s_per_audio_s": {
+    "offline": 0.1318,
+    "streaming": 0.4323
+   },
+   "final_by_stop_clips": 225,
+   "error_messages": 0
+  },
+  "golos_farfield": {
+   "clips": 300,
+   "skipped_longer_than_max_seconds": 0,
+   "audio_hours": 0.221,
+   "wer": {
+    "offline": 6.57,
+    "streaming": 11.34
+   },
+   "cer": {
+    "offline": 3.21,
+    "streaming": 7.74
+   },
+   "wer_raw": {
+    "offline": 59.89,
+    "streaming": 67.08
+   },
+   "rtf": {
+    "offline": 0.0852,
+    "streaming": 0.2447,
+    "streaming_per_fed_second": 0.2447
+   },
+   "streaming_equals_offline_clips": 232,
+   "multi_final_clips_pct": 36.0,
+   "first_partial_s": {
+    "p50": null,
+    "p95": null
+   },
+   "final_lag_s": {
+    "p50": null,
+    "p95": null
+   },
+   "partial_updates": 678,
+   "partial_revision_pct": 4.57,
+   "word_start_offset_s": {
+    "median": 0.0,
+    "p05": -0.04,
+    "p95": 0.0,
+    "words": 1223
+   },
+   "server_cpu_s_per_audio_s": {
+    "offline": 0.1317,
+    "streaming": 0.3756
+   },
+   "final_by_stop_clips": 294,
+   "error_messages": 0
+  }
+ },
+ "all": {
+  "clips": 898,
+  "skipped_longer_than_max_seconds": 2,
+  "audio_hours": 1.54,
+  "wer": {
+   "offline": 7.05,
+   "streaming": 10.94
+  },
+  "cer": {
+   "offline": 3.76,
+   "streaming": 7.32
+  },
+  "wer_raw": {
+   "offline": 27.54,
+   "streaming": 34.36
+  },
+  "rtf": {
+   "offline": 0.0877,
+   "streaming": 0.3509,
+   "streaming_per_fed_second": 0.3509
+  },
+  "streaming_equals_offline_clips": 575,
+  "multi_final_clips_pct": 36.7,
+  "first_partial_s": {
+   "p50": null,
+   "p95": null
+  },
+  "final_lag_s": {
+   "p50": null,
+   "p95": null
+  },
+  "partial_updates": 5087,
+  "partial_revision_pct": 8.85,
+  "word_start_offset_s": {
+   "median": 0.0,
+   "p05": -0.04,
+   "p95": 0.0,
+   "words": 8235
+  },
+  "server_cpu_s_per_audio_s": {
+   "offline": 0.1427,
+   "streaming": 0.5434
+  },
+  "final_by_stop_clips": 682,
+  "error_messages": 0
+ }
+}

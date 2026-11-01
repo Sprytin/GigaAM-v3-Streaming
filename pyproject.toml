@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gigaam-v3-streaming"
+version = "0.1.0"
+description = "Streaming Russian speech recognition with stock GigaAM v3 RNN-T: partials, endpointed finals, word times"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["asr", "speech-recognition", "streaming", "russian", "gigaam", "rnnt"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Natural Language :: Russian",
+  "Topic :: Multimedia :: Sound/Audio :: Speech",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = ["numpy>=1.26"]
+
+[project.optional-dependencies]
+# GigaAM itself is installed from its repository with its [torch] extra (see README).
+model = ["torch>=2.5", "torchaudio>=2.5", "soundfile>=0.12"]
+server = ["aiohttp>=3.9"]
+bench = ["soundfile>=0.12", "pyarrow>=14"]
+test = ["pytest>=8", "ruff>=0.6"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["UP007", "UP045"]

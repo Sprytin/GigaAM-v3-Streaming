@@ -1,0 +1,17 @@
+# Benchmark audio and downloads stay local; nothing here is redistributed.
+/data/
+benchmarks/results/*.clips.jsonl
+*.wav
+*.flac
+*.parquet
+*.tar.gz
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/

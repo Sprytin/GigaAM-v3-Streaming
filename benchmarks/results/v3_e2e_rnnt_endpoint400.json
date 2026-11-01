@@ -1,0 +1,191 @@
+{
+ "model": "v3_e2e_rnnt",
+ "settings": {
+  "chunk_ms": 80,
+  "tail_ms": 2000,
+  "endpoint_ms": 400,
+  "stable": {
+   "emit_ms": 240,
+   "left_context_ms": 8000,
+   "right_context_ms": 800
+  },
+  "preview": {
+   "emit_ms": 160,
+   "left_context_ms": 3200,
+   "right_context_ms": 320
+  },
+  "max_seconds": 25.0
+ },
+ "environment": {
+  "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+  "torch": "2.5.1+cu124",
+  "python": "3.12.3"
+ },
+ "gpu_memory_mb": {
+  "weights": 447.1,
+  "peak_total": 472.6
+ },
+ "note": "GPU shared with another workload during the run.",
+ "sets": {
+  "fleurs_ru": {
+   "clips": 100,
+   "skipped_longer_than_max_seconds": 1,
+   "audio_hours": 0.315,
+   "wer": {
+    "offline": 4.47,
+    "streaming": 5.42
+   },
+   "cer": {
+    "offline": 1.17,
+    "streaming": 1.55
+   },
+   "wer_raw": {
+    "offline": 9.81,
+    "streaming": 13.49
+   },
+   "rtf": {
+    "offline": 0.0441,
+    "streaming": 0.4376,
+    "streaming_per_fed_second": 0.372
+   },
+   "streaming_equals_offline_clips": 70,
+   "multi_final_clips_pct": 47.0,
+   "first_partial_s": {
+    "p50": 0.395,
+    "p95": 0.536
+   },
+   "final_lag_s": {
+    "p50": 1.248,
+    "p95": 1.561
+   },
+   "partial_updates": 5354,
+   "partial_revision_pct": 12.2,
+   "word_start_offset_s": {
+    "median": 0.0,
+    "p05": -0.04,
+    "p95": 0.016,
+    "words": 1818
+   }
+  },
+  "golos_crowd": {
+   "clips": 100,
+   "skipped_longer_than_max_seconds": 1,
+   "audio_hours": 0.112,
+   "wer": {
+    "offline": 12.6,
+    "streaming": 13.2
+   },
+   "cer": {
+    "offline": 8.89,
+    "streaming": 8.93
+   },
+   "wer_raw": {
+    "offline": 59.8,
+    "streaming": 57.8
+   },
+   "rtf": {
+    "offline": 0.0526,
+    "streaming": 0.5367,
+    "streaming_per_fed_second": 0.3588
+   },
+   "streaming_equals_offline_clips": 89,
+   "multi_final_clips_pct": 51.0,
+   "first_partial_s": {
+    "p50": 0.42,
+    "p95": 0.553
+   },
+   "final_lag_s": {
+    "p50": 1.372,
+    "p95": 1.932
+   },
+   "partial_updates": 1427,
+   "partial_revision_pct": 9.04,
+   "word_start_offset_s": {
+    "median": 0.0,
+    "p05": -0.04,
+    "p95": 0.041,
+    "words": 482
+   }
+  },
+  "golos_farfield": {
+   "clips": 100,
+   "skipped_longer_than_max_seconds": 0,
+   "audio_hours": 0.078,
+   "wer": {
+    "offline": 7.35,
+    "streaming": 9.13
+   },
+   "cer": {
+    "offline": 3.36,
+    "streaming": 3.83
+   },
+   "wer_raw": {
+    "offline": 58.8,
+    "streaming": 57.02
+   },
+   "rtf": {
+    "offline": 0.0486,
+    "streaming": 0.4721,
+    "streaming_per_fed_second": 0.2751
+   },
+   "streaming_equals_offline_clips": 89,
+   "multi_final_clips_pct": 27.0,
+   "first_partial_s": {
+    "p50": 0.388,
+    "p95": 0.513
+   },
+   "final_lag_s": {
+    "p50": 1.575,
+    "p95": 1.923
+   },
+   "partial_updates": 1251,
+   "partial_revision_pct": 11.03,
+   "word_start_offset_s": {
+    "median": 0.001,
+    "p05": -0.04,
+    "p95": 0.04,
+    "words": 435
+   }
+  }
+ },
+ "all": {
+  "clips": 300,
+  "skipped_longer_than_max_seconds": 2,
+  "audio_hours": 0.504,
+  "wer": {
+   "offline": 6.36,
+   "streaming": 7.39
+  },
+  "cer": {
+   "offline": 2.79,
+   "streaming": 3.13
+  },
+  "wer_raw": {
+   "offline": 26.44,
+   "streaming": 28.25
+  },
+  "rtf": {
+   "offline": 0.0467,
+   "streaming": 0.4649,
+   "streaming_per_fed_second": 0.3495
+  },
+  "streaming_equals_offline_clips": 248,
+  "multi_final_clips_pct": 41.7,
+  "first_partial_s": {
+   "p50": 0.395,
+   "p95": 0.536
+  },
+  "final_lag_s": {
+   "p50": 1.4,
+   "p95": 1.893
+  },
+  "partial_updates": 8032,
+  "partial_revision_pct": 11.45,
+  "word_start_offset_s": {
+   "median": 0.0,
+   "p05": -0.04,
+   "p95": 0.021,
+   "words": 2735
+  }
+ }
+}

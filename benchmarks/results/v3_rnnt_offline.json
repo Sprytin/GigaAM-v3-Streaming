@@ -1,0 +1,99 @@
+{
+ "model": "v3_rnnt",
+ "settings": {
+  "chunk_ms": 80,
+  "tail_ms": 2000,
+  "endpoint_ms": 600,
+  "stable": {
+   "emit_ms": 240,
+   "left_context_ms": 8000,
+   "right_context_ms": 800
+  },
+  "preview": {
+   "emit_ms": 160,
+   "left_context_ms": 3200,
+   "right_context_ms": 320
+  },
+  "max_seconds": 25.0
+ },
+ "environment": {
+  "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+  "torch": "2.5.1+cu124",
+  "python": "3.12.3"
+ },
+ "gpu_memory_mb": {
+  "weights": 443.9,
+  "peak_total": 469.8
+ },
+ "note": "GPU shared with another workload during the run.",
+ "sets": {
+  "fleurs_ru": {
+   "clips": 299,
+   "skipped_longer_than_max_seconds": 1,
+   "audio_hours": 0.967,
+   "wer": {
+    "offline": 7.8
+   },
+   "cer": {
+    "offline": 4.92
+   },
+   "wer_raw": {
+    "offline": 33.44
+   },
+   "rtf": {
+    "offline": 0.1223
+   }
+  },
+  "golos_crowd": {
+   "clips": 299,
+   "skipped_longer_than_max_seconds": 1,
+   "audio_hours": 0.351,
+   "wer": {
+    "offline": 2.76
+   },
+   "cer": {
+    "offline": 0.92
+   },
+   "wer_raw": {
+    "offline": 2.76
+   },
+   "rtf": {
+    "offline": 0.0403
+   }
+  },
+  "golos_farfield": {
+   "clips": 300,
+   "skipped_longer_than_max_seconds": 0,
+   "audio_hours": 0.221,
+   "wer": {
+    "offline": 3.52
+   },
+   "cer": {
+    "offline": 0.97
+   },
+   "wer_raw": {
+    "offline": 3.52
+   },
+   "rtf": {
+    "offline": 0.0677
+   }
+  }
+ },
+ "all": {
+  "clips": 898,
+  "skipped_longer_than_max_seconds": 2,
+  "audio_hours": 1.54,
+  "wer": {
+   "offline": 6.26
+  },
+  "cer": {
+   "offline": 3.66
+  },
+  "wer_raw": {
+   "offline": 23.47
+  },
+  "rtf": {
+   "offline": 0.0957
+  }
+ }
+}

@@ -1,0 +1,34 @@
+{
+  "model": "v3_e2e_rnnt",
+  "clips": 3,
+  "audio_seconds": 22.9,
+  "environment": {
+    "gpu": null,
+    "cpu_threads": 3,
+    "torch": "2.5.1+cu124",
+    "python": "3.12.3"
+  },
+  "dtypes": {
+    "encoder": [
+      "torch.float32"
+    ],
+    "head": [
+      "torch.float32"
+    ]
+  },
+  "weights_mb": null,
+  "modes": {
+    "offline": {
+      "peak_mb": null,
+      "rtf": 0.0897
+    },
+    "streaming": {
+      "peak_mb": null,
+      "rtf": 3.5982
+    },
+    "streaming_without_preview": {
+      "peak_mb": null,
+      "rtf": 1.941
+    }
+  }
+}
